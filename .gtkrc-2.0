@@ -1,0 +1,8 @@
+# Auto-written by gtk2_prefs. Do not edit.
+
+gtk-theme-name = "Mona 3.0"
+style "user-font"
+{
+	font_name="Ubuntu 12"
+}
+widget_class "*" style "user-font"

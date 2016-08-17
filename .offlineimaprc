@@ -1,0 +1,53 @@
+[general]
+accounts = personal
+ui = ttyui
+
+[Account personal]
+localrepository = personal-local
+remoterepository = personal-remote
+status_backend = sqlite
+
+[Repository personal-local]
+type = Maildir
+localfolders = /var/spool/mail/personal
+
+nametrans: lambda s: dict((value,key) for key,value in
+                      {  '[Gmail]/Starred' : 'starred',
+                         '[Gmail]/Trash'   : 'trash',
+                         '[Gmail]/Spam'    : 'spam',
+                         '[Gmail]/Sent Mail' : 'sent',
+                         '[Gmail]/Important' : 'important',
+                         '[Gmail]/Drafts'    : 'drafts',
+                         '[Gmail]/All Mail'  : 'archive',
+                         'INBOX'             : 'inbox',
+                      }.iteritems()).get (s, s)
+
+#nametrans = lambda folder: {'archive': '[Gmail]/All Mail',
+#                            }.get(folder, folder)
+
+
+
+[Repository personal-remote]
+type = Gmail
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+remoteuser = rkuzovlev@gmail.com
+remotepass = 
+auth_mechanisms = LOGIN
+
+
+nametrans: lambda s: {  '[Gmail]/Starred' : 'starred',
+                        '[Gmail]/Trash'   : 'trash',
+                        '[Gmail]/Spam'    : 'spam',
+                        '[Gmail]/Sent Mail' : 'sent',
+                        '[Gmail]/Important' : 'important',
+                        '[Gmail]/Drafts'    : 'drafts',
+                        '[Gmail]/All Mail'  : 'archive',
+                        'INBOX'             : 'inbox',
+                      }.get (s, s)
+
+#nametrans = lambda folder: {'[Gmail]/All Mail': 'archive',
+#                            }.get(folder, folder)
+
+
+folderfilter = lambda folder: folder == '[Gmail]/All Mail'
